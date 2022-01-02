@@ -17,4 +17,13 @@ const get = async (req, res) => {
   } catch (error) {}
 };
 
-export const productController = { create, get };
+const getProduct = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await productService.getProduct(id);
+    res.status(httpStatusCode.OK).json(result);
+    return result;
+  } catch (error) {}
+};
+
+export const productController = { create, get, getProduct };

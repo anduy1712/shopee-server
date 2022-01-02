@@ -2,13 +2,10 @@ import Joi from 'joi';
 import { ObjectId } from 'mongodb';
 import { getDB } from '../config/mongodb';
 
-const productCollectionName = 'product';
-const productSchema = Joi.object({
-  title: Joi.string().min(3).max(50).trim().required(),
-  price: Joi.number().required(),
-  images: Joi.array().items(Joi.string()).default([]),
-  quantites: Joi.number().max(999).required(),
-  description: Joi.string().min(3).trim().required(),
+const cartCollectionName = 'cart';
+const cartSchema = Joi.object({
+  userId: Joi.string(),
+  products: Joi.array().items(Joi.string()).default([]),
   createAt: Joi.date().timestamp().default(Date.now()),
   updateAt: Joi.date().timestamp().default(null),
   _destroy: Joi.boolean().default(false)
@@ -16,7 +13,7 @@ const productSchema = Joi.object({
 
 const validateSchema = async (data) => {
   try {
-    return await productSchema.validateAsync(data, {
+    return await cartSchema.validateAsync(data, {
       abortEarly: false
     });
   } catch (err) {}
@@ -27,10 +24,10 @@ const create = async (req, res) => {
     const value = await validateSchema(req);
     //call mongodb
     const result = await getDB()
-      .collection(productCollectionName)
+      .collection(cartCollectionName)
       .insertOne(value);
     const resultFinal = await getDB()
-      .collection(productCollectionName)
+      .collection(cartCollectionName)
       .findOne(result.insertedId);
     return resultFinal;
   } catch (error) {
@@ -42,20 +39,12 @@ const get = async (req, res) => {
   try {
     //call mongodb
     const result = await getDB()
-      .collection(productCollectionName)
+      .collection(cartCollectionName)
       .find({})
       .toArray();
     return result;
   } catch (error) {}
 };
 
-const getProduct = async (id) => {
-  try {
-    const result = await getDB()
-      .collection(productCollectionName)
-      .findOne({ _id: ObjectId(id) });
-    return result;
-  } catch (error) {}
-};
 
-export const productModel = { create, get, getProduct };
+export const cartModel = {  get };

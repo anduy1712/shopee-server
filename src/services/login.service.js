@@ -1,27 +1,53 @@
 import * as argon2 from 'argon2';
-import jsonwebtoken from "jsonwebtoken";
-import { env } from "../config/environtment";
+import jsonwebtoken from 'jsonwebtoken';
+import { ObjectId } from 'mongodb';
+import { env } from '../config/environtment';
 import { authModel } from '../models/auth.model';
 
 const create = async (req, res) => {
-  const { password } = req;
+  const { username, password } = req;
   try {
-    const User = await authModel.get();
+    const Users = await authModel.get();
+
     //USER FAIL
-    if (!User) return res.status(400).json({ messge: 'username error' });
+    const user = await Users.findOne({ username });
+
+    if (!user) return { status: 400, success: false, message: 'user error' };
 
     //PASSWORD FAIL
-    const passwordVerify = await argon2.verify(User.password, password);
+    const passwordVerify = await argon2.verify(user.password, password);
     if (!passwordVerify)
-      return res.status(400).json({ message: 'password error' });
+      return { status: 400, success: false, message: 'password error' };
 
     //GET TOKEN
     const accessToken = jsonwebtoken.sign(
-      { userId: User._id },
+      { userId: user._id },
       env.ACCESS_TOKEN_SECET
     );
-    return res.status(200).json({ message: 'Login successfully', accessToken });
+    return {
+      status: 200,
+      success: true,
+      message: 'Login successfully',
+      accessToken: accessToken
+    };
   } catch (error) {}
 };
 
-export const loginService = { create };
+const get = async (req, res) => {
+  try {
+    const Users = await authModel.get();
+    const user = await Users.findOne({ _id: ObjectId(req.userId) });
+    delete user.password;
+    delete user._destroy;
+    if (!user)
+      return { status: 400, success: false, message: 'Cannot get user' };
+    return {
+      status: 200,
+      success: true,
+      message: 'Get User Successfuly',
+      user
+    };
+  } catch (error) {}
+};
+
+export const loginService = { create, get };

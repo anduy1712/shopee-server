@@ -1,7 +1,7 @@
 import express from 'express';
 import { connectDb } from './config/mongodb';
 import { apiV1 } from './routes/v1';
-
+import cors from 'cors';
 const app = express();
 const hostname = 'localhost';
 const port = 8017;
@@ -19,6 +19,7 @@ const bootServer = () => {
   });
   //Enabled req body
   app.use(express.json());
+  app.use(cors());
   //Routes
   app.use('/v1', apiV1);
   app.listen(port, hostname, () => {

@@ -9,9 +9,16 @@ const create = async (req, res) => {
 
 const get = async (req, res) => {
   try {
-    const result = await productModel.get();
+    const result = await productModel.get(req);
     return result;
   } catch (error) {}
 };
 
-export const productService = { create, get };
+const getProduct = async (id) => {
+  try {
+    const result = await productModel.getProduct(id);
+    return result;
+  } catch (error) {}
+};
+
+export const productService = { create, get, getProduct };

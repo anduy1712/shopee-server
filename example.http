@@ -1,28 +1,55 @@
 
-POST http://localhost:8017/v1/products/ 
+// @route GET v1/product
+// @desc Get product
+// access private
+GET http://localhost:8017/v1/product/ 
+Content-Type: application/json
+
+###
+// @route GET v1/product
+// @desc Get product
+// access private
+GET http://localhost:8017/v1/product/61cfe3263ce529815592bf1c
+
+
+###
+// @route POST v1/product
+// @desc Create product
+// access private
+POST http://localhost:8017/v1/product/ 
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MWNhN2YzNjI2Mjk5ZTI0NGRkZDQ1NjYiLCJpYXQiOjE2NDA2NzY0NjN9.8OGQvLdh5d9owKCQ38UZf4FBowMJLMZ7sH6Y9gBs_3c
 
 {
-    "title": "Test token 23",
-    "price": 10,
-    "images": ["https://media3.scdn.vn/img4/2020/12_10/YmrifeaFvW1L1zlwmWoI.jpg"],
-    "quantites": 5,
-    "description": "dsadsadsaadas"
+"title": "SanDisk SSD PLUS 1TB Internal SSD",
+    "price": 109,
+    "quantites": 20,
+    "description": "Easy upgrade for faster boot up, shutdown, application load and response (As compared to 5400 RPM SATA 2.5” hard drive; Based on published specifications and internal benchmarking tests using PCMark vantage scores) Boosts burst write performance, making it ideal for typical PC workloads The perfect balance of performance and reliability Read/write speeds of up to 535MB/s/450MB/s (Based on internal testing; Performance may vary depending upon drive capacity, host device, OS and application.)",
+    "images": [
+      "https://media3.scdn.vn/img4/2020/07_06/yg0VS40CP1UIpREXrRCj.png",
+      "https://media3.scdn.vn/img4/2020/07_06/noooPbLd67VTErC7PCWt.png",
+      "https://media3.scdn.vn/img4/2020/07_06/DcQEBysSozIYvDZgIFwa.png",
+      "https://media3.scdn.vn/img4/2020/07_06/oBlFhwfmcsCYuiIqcjnW.png",
+      "https://media3.scdn.vn/img4/2020/07_06/Awn8MWDy4ZvuoT2o6KiI.png"
+    ]
 }
 
 ###
-// @register
+// @route POST v1/register
+// @desc Register user
+// access public
 POST http://localhost:8017/v1/register/ 
 Content-Type: application/json
 
 {
-    "username": "lethanphuong2017",
+    "username": "duyan123",
     "password": "12345678"
 }
 
 ###
-// @login
+// @route POST v1/login
+// @desc Login user
+// access public
 POST http://localhost:8017/v1/login/ 
 Content-Type: application/json
 
@@ -30,3 +57,13 @@ Content-Type: application/json
     "username": "lethanphuong2017",
     "password": "12345678"
 }
+
+
+###
+// @route GET api/auth
+// @desc Fetch user
+// @access Public
+GET http://localhost:8017/v1/login/ 
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MWNlY2UyZjg1MTUyMzg4NzUyMjA0ZGEiLCJpYXQiOjE2NDA5NDMxNTF9.tbYqVp0ojbdmskTnoVmMZdQjPNuRQXyuLdWEPUWayVc
+

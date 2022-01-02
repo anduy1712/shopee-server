@@ -9,4 +9,6 @@ router
   .route('/')
   .post(productValidion.create, verifyToken, productController.create)
   .get(productController.get);
+
+router.route('/:id').get(productController.getProduct);
 export const productRoutes = router;
