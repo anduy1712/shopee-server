@@ -2,7 +2,7 @@ import Joi from 'joi';
 import { ObjectId } from 'mongodb';
 import { getDB } from '../config/mongodb';
 
-const productCollectionName = 'product';
+export const productCollectionName = 'product';
 const productSchema = Joi.object({
   title: Joi.string().min(3).max(50).trim().required(),
   price: Joi.number().required(),

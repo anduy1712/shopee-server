@@ -19,6 +19,9 @@ const bootServer = () => {
   });
   //Enabled req body
   app.use(express.json());
+  app.use(function (err, req, res, next) {
+    console.log(err);
+  });
   app.use(cors());
   //Routes
   app.use('/v1', apiV1);

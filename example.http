@@ -1,3 +1,4 @@
+//API - Product *************************
 
 // @route GET v1/product
 // @desc Get product
@@ -21,7 +22,7 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MWNhN2YzNjI2Mjk5ZTI0NGRkZDQ1NjYiLCJpYXQiOjE2NDA2NzY0NjN9.8OGQvLdh5d9owKCQ38UZf4FBowMJLMZ7sH6Y9gBs_3c
 
 {
-"title": "SanDisk SSD PLUS 1TB Internal SSD",
+    "title": "SanDisk SSD PLUS 1TB Internal SSD",
     "price": 109,
     "quantites": 20,
     "description": "Easy upgrade for faster boot up, shutdown, application load and response (As compared to 5400 RPM SATA 2.5” hard drive; Based on published specifications and internal benchmarking tests using PCMark vantage scores) Boosts burst write performance, making it ideal for typical PC workloads The perfect balance of performance and reliability Read/write speeds of up to 535MB/s/450MB/s (Based on internal testing; Performance may vary depending upon drive capacity, host device, OS and application.)",
@@ -34,7 +35,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MWNhN
     ]
 }
 
+
 ###
+//Api - User - Login - Register *************************
 // @route POST v1/register
 // @desc Register user
 // access public
@@ -45,7 +48,6 @@ Content-Type: application/json
     "username": "duyan123",
     "password": "12345678"
 }
-
 ###
 // @route POST v1/login
 // @desc Login user
@@ -57,8 +59,6 @@ Content-Type: application/json
     "username": "lethanphuong2017",
     "password": "12345678"
 }
-
-
 ###
 // @route GET api/auth
 // @desc Fetch user
@@ -67,3 +67,20 @@ GET http://localhost:8017/v1/login/
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MWNlY2UyZjg1MTUyMzg4NzUyMjA0ZGEiLCJpYXQiOjE2NDA5NDMxNTF9.tbYqVp0ojbdmskTnoVmMZdQjPNuRQXyuLdWEPUWayVc
 
+###
+POST http://localhost:8017/v1/cart/ 
+Content-Type: application/json
+
+{
+    "userId": "61ced3c2d478e8449c7089a1",
+    "products": [{
+        "productId": "61d16077b2bcd7da7de6f6d8",
+        "quantity": 2
+    }
+    ]
+}
+
+###
+GET http://localhost:8017/v1/cart/user/61cd29357fad17bee94c3fc6 
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MWNlY2UyZjg1MTUyMzg4NzUyMjA0ZGEiLCJpYXQiOjE2NDA5NDMxNTF9.tbYqVp0ojbdmskTnoVmMZdQjPNuRQXyuLdWEPUWayVc

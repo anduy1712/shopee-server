@@ -2,8 +2,8 @@ import Joi from 'joi';
 
 const create = async (req, res, next) => {
   const condition = Joi.object({
-    userId: Joi.string(),
-    products: Joi.array().items(Joi.string()).default([]),
+    userId: Joi.string().required(),
+    products: Joi.array().items(Joi.object()).default([])
   });
   try {
     await condition.validateAsync(req.body, { abortEarly: false });
@@ -13,4 +13,4 @@ const create = async (req, res, next) => {
   }
 };
 
-export const cartValidion = { create };
+export const cartValidation = { create };
