@@ -1,8 +1,7 @@
 import express from 'express';
-import { productController } from '../../controllers/product.controller';
 import verifyToken from '../../middlewares/auth';
 import { productValidion } from '../../validations/product.validation';
-
+import { productController } from '../../controllers/product.controller';
 const router = express.Router();
 
 router
