@@ -1,6 +1,7 @@
 import Joi from 'joi';
 import { ObjectId } from 'mongodb';
 import { getDB } from '../config/mongodb';
+import { Request, Response } from 'express';
 
 export const productCollectionName = 'product';
 const productSchema = Joi.object({
@@ -22,7 +23,7 @@ const validateSchema = async (data) => {
   } catch (err) {}
 };
 
-const create = async (req, res) => {
+const create = async (req?: Request, res?: Response) => {
   try {
     const value = await validateSchema(req);
     //call mongodb
@@ -38,7 +39,7 @@ const create = async (req, res) => {
   }
 };
 
-const get = async (req, res) => {
+const get = async (req?: Request, res?: Response) => {
   try {
     //call mongodb
     const result = await getDB()
@@ -53,7 +54,7 @@ const getProduct = async (id) => {
   try {
     const result = await getDB()
       .collection(productCollectionName)
-      .findOne({ _id: ObjectId(id) });
+      .findOne({ _id: new ObjectId(id) });
     return result;
   } catch (error) {}
 };

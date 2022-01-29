@@ -1,13 +1,13 @@
 import { productModel } from '../models/product.model';
-
-const create = async (req, res) => {
+import { Request, Response } from 'express';
+const create = async (req: Request, res?: Response) => {
   try {
     const result = await productModel.create(req);
     return result;
   } catch (error) {}
 };
 
-const get = async (req, res) => {
+const get = async (req?: Request, res?: Response) => {
   try {
     const result = await productModel.get(req);
     return result;
