@@ -9,7 +9,7 @@ const port = 8017;
 //mongodb+srv://anduy1712:<password>@cluster0.adawb.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
 
 connectDb()
-  .then()
+  .then(() => console.log('Connect successfull'))
   .then(() => bootServer())
   .catch((error) => console.log(error));
 

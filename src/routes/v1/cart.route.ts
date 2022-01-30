@@ -6,5 +6,7 @@ import verifyToken from '../../middlewares/auth';
 const router = express.Router();
 
 router.route('/').post(cartValidation.create, cartController.create);
-router.route('/user/:id').get(verifyToken, cartController.getByUser);
+router.route('/user/:id')
+        .get(verifyToken, cartController.getByUser)
+        .put(verifyToken, cartController.update)
 export const cartRoutes = router;

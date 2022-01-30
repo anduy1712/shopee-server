@@ -68,6 +68,9 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MWNlY2UyZjg1MTUyMzg4NzUyMjA0ZGEiLCJpYXQiOjE2NDA5NDMxNTF9.tbYqVp0ojbdmskTnoVmMZdQjPNuRQXyuLdWEPUWayVc
 
 ###
+// @route POST /v1/cart/ 
+// @desc Update or Create cart
+// @access Public
 POST http://localhost:8017/v1/cart/ 
 Content-Type: application/json
 
@@ -78,6 +81,19 @@ Content-Type: application/json
         "quantity": 2
     }
     ]
+}
+
+###
+// @route PUT /v1/cart/ 
+// @desc Update Quantity cart
+// @access Public
+PUT http://localhost:8017/v1/cart/user/61ced3c2d478e8449c7089a1 
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MWNlY2UyZjg1MTUyMzg4NzUyMjA0ZGEiLCJpYXQiOjE2NDA5NDMxNTF9.tbYqVp0ojbdmskTnoVmMZdQjPNuRQXyuLdWEPUWayVc
+
+{
+    "productId": "61cfe3263ce529815592bf1c",
+    "quantity": 0
 }
 
 ###

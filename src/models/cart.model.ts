@@ -2,6 +2,7 @@ import Joi from 'joi';
 import { ObjectId } from 'mongodb';
 import { getDB } from '../config/mongodb';
 import { productCollectionName } from './product.model';
+import { Request, Response } from 'express';
 
 const cartCollectionName = 'cart';
 const cartSchema = Joi.object({
@@ -20,7 +21,7 @@ const validateSchema = async (data) => {
   } catch (err) {}
 };
 
-const create = async (req, res) => {
+const create = async (req?, res?: Response) => {
   try {
     const value = await validateSchema(req);
     //call mongodb
@@ -80,7 +81,7 @@ const create = async (req, res) => {
   }
 };
 
-const get = async (req, res) => {
+const get = async (req?, res?: Response) => {
   try {
     //call mongodb
     const result = await getDB()
@@ -88,6 +89,48 @@ const get = async (req, res) => {
       .find({})
       .toArray();
     return result;
+  } catch (error) {}
+};
+
+const update = async (req?, id?: any) => {
+  try {
+    //call mongodb
+    //Get cart of user from Cart Collection
+    let getCart = await getDB()
+      .collection(cartCollectionName)
+      .find({ userId: id })
+      .toArray();
+
+    if (getCart[0]) {
+      let { products } = getCart[0];
+      const { productId, quantity } = req;
+      const index = products.findIndex(
+        (oldProduct) => oldProduct.productId === productId
+      );
+      if (index > -1) {
+        console.log(quantity);
+        if (quantity <= 0) {
+          console.log('delete');
+          products = products.filter((product) => {
+            return product.productId !== productId;
+          });
+        } else {
+          products[index].quantity = quantity;
+        }
+      } else {
+        return new Error('Sản phẩm không tồn tại');
+      }
+      const result = { ...getCart[0], updateAt: Date.now(), products };
+      const resultFinal = await getDB()
+        .collection(cartCollectionName)
+        .findOneAndUpdate(
+          { _id: result._id },
+          { $set: result },
+          { returnDocument: 'after' }
+        );
+      const resultFinalFinal = await getByUser(resultFinal.value.userId);
+      return resultFinalFinal;
+    }
   } catch (error) {}
 };
 
@@ -100,7 +143,7 @@ const getByUser = async (id) => {
       .toArray();
     //Get products array to find productID
     const { products } = result[0];
-    const productIds = products.map((item) => ObjectId(item.productId));
+    const productIds = products.map((item) => new ObjectId(item.productId));
     const newProduct = await getDB()
       .collection(productCollectionName)
       .find({ _id: { $in: productIds } })
@@ -115,24 +158,7 @@ const getByUser = async (id) => {
     });
     result = { ...result[0], products: objArray };
     return result;
-    // await products.forEach(async (item) => {
-    //   const product = await getDB()
-    //     .collection(productCollectionName)
-    //     find( { _id : { $in : [ObjectId('1'),ObjectId('2')] } } );
-
-    //   newProducts = { ...product, quantity: item.quantity };
-    // });
-
-    // const { productId } = products[0];
-    // console.log(productId);
-    // const product = await getDB()
-    //   .collection(productCollectionName)
-    //   .find({ _id: ObjectId(productId) })
-    //   .toArray();
-    // const resultFinal = { ...result[0], products: product };
-    // console.log(resultFinal);
-    // return resultFinal;
   } catch (error) {}
 };
 
-export const cartModel = { get, getByUser, create };
+export const cartModel = { get, getByUser, create, update };
